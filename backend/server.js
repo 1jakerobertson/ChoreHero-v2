@@ -25,3 +25,16 @@ app.listen(4500, () => {
 });
 
 
+// test login json
+/* 
+{
+  "email": "test@example.com",
+  "password": "test123"
+} 
+  */
+
+// login
+// POST http://localhost:4500/api/users/login
+
+// tasks
+// http://localhost:4500/api/tasks
