@@ -1,13 +1,28 @@
-import { Button } from "@chakra-ui/react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import { AuthProvider } from './context/AuthProvider';
+import ProtectedRoute from './components/ProtectedRoute';
+
 
 function App() {
-  console.log("✅ App component is rendering");
-  console.log("✅ React + Chakra loaded");
-
   return (
-    <>
-      <Button colorScheme="teal">Hello from Chakra</Button>
-    </>
+    <ChakraProvider>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route 
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>  
+    </ChakraProvider>
   );
 }
 
