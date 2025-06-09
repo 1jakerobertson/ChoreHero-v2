@@ -14,23 +14,22 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// Optional → if you want to use Swal for alerts:
-// import Swal from 'sweetalert2';
 import { useAuth } from '../context/AuthProvider';
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // You forgot this line! You need to use login() from context
 
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   async function handleLogin(e) {
+    console.log("Redirecting to /dashboard...");
     e.preventDefault();
     try {
       const requestBody = { email, password };
-      // For now, use your own backend endpoint here:
-      const response = await axios.post('http://localhost:4000/api/auth/login', requestBody);
+      const response = await axios.post('http://localhost:4500/api/auth/login', requestBody);
 
       // AuthContext login
       login(response.data.token);
@@ -39,12 +38,22 @@ export default function Login() {
       navigate('/dashboard');
     } catch (error) {
       console.log(error);
-      // Optional → show error alert
-      // Swal.fire({
-      //   icon: 'error',
-      //   title: 'Oops...',
-      //   text: error.response?.data?.message || 'Login failed',
-      // });
+    }
+  }
+
+  async function handleRegister(e) {
+    e.preventDefault();
+    try {
+      const requestBody = { email, password };
+      const response = await axios.post('http://localhost:4500/api/auth/register', requestBody);
+
+      console.log('Registered:', response.data);
+
+      // After successful registration → switch to login mode and redirect
+      setIsLoginMode(true);
+      navigate('/'); // Optional, since "/" already shows Login
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -85,7 +94,7 @@ export default function Login() {
               bg="limegreen"
               color="white"
               _hover={{ bg: 'lime' }}
-              onClick={handleLogin}
+              onClick={isLoginMode ? handleLogin : handleRegister}
             >
               {isLoginMode ? 'Login' : 'Register'}
             </Button>

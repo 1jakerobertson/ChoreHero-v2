@@ -9,7 +9,7 @@ import verifyToken from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.post("/", registerUser);
+router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/me", verifyToken, getLoggedInUser); // protected route
 
