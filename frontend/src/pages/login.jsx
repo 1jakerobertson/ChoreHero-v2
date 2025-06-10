@@ -18,9 +18,10 @@ import { useAuth } from '../context/AuthProvider';
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth(); // You forgot this line! You need to use login() from context
+  const { login } = useAuth();
 
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -44,7 +45,7 @@ export default function Login() {
   async function handleRegister(e) {
     e.preventDefault();
     try {
-      const requestBody = { email, password };
+      const requestBody = { username, email, password };
       const response = await axios.post('http://localhost:4500/api/auth/register', requestBody);
 
       console.log('Registered:', response.data);
@@ -73,6 +74,14 @@ export default function Login() {
         <Box p={8} maxWidth="400px" borderWidth={1} borderRadius={8} boxShadow="lg">
           <Heading mb={6}>{isLoginMode ? 'Member Login' : 'Register'}</Heading>
           <Stack spacing={4}>
+            <FormControl>
+              <FormLabel>Username</FormLabel>
+              <Input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </FormControl>
             <FormControl>
               <FormLabel>Email address</FormLabel>
               <Input
