@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import Login from './pages/Login';
+import Login from './pages/Logintemp';
 import Dashboard from './pages/dashboard';
 import { AuthProvider } from './context/AuthProvider';
 import ProtectedRoute from './components/ProtectedRoute';
